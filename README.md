@@ -24,11 +24,15 @@ token. Public Content API permissions remain disabled unless you enable them.
 Install/configure Strapi's official AWS S3 upload provider, already included
 here. Create your own private bucket and bucket-restricted credential. The
 example supports Cloudflare R2 with path-style requests and signed media
-previews in the Content Manager.
+previews in the Content Manager. Allow `GET` and `HEAD` from the Strapi HTTPS
+origin in the bucket CORS policy; the browser requests previews with CORS.
+Keep the bucket private.
 
-Private media URLs in the Content API are not automatically signed. Your
-frontend needs authorized file delivery or its own signing service. For public
-website images, use a separate bucket and explicitly configure public delivery.
+The tested release also returns signed private media URLs in authorized Content
+API responses. These links expire: fetch current content rather than persisting
+a signed URL as the permanent media address. Check this behavior when changing
+Strapi versions or providers. For public website images, use a separate bucket
+and explicitly configure public delivery.
 Do not expose private documents by changing the bucket's access policy.
 
 ## Change the content model
